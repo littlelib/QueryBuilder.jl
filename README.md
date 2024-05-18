@@ -20,7 +20,7 @@ Unlike the majority of SQL query packages that avoid directly manipulating the q
 QueryBuilder.jl is currently not registered in the official Julia repository. You have to install it via the github url for now.
 ```julia
 # Enter Pkg mode by pressing ']'
-pkg> add https:://github.com/littlelib/QueryBuilder.jl.git
+pkg> add https://github.com/littlelib/QueryBuilder.jl.git
 ```
 
 ## Examples
