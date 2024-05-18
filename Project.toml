@@ -1,0 +1,4 @@
+name = "QueryBuilder"
+uuid = "a7f6e952-c1c3-4fbb-82b3-b2d233692571"
+authors = ["littlelib <littlelib@naver.com>"]
+version = "0.1.0"
