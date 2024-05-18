@@ -65,7 +65,7 @@ function id(::SqlObject{:postgres}, isprimary::Bool, notnull::Bool, autoincremen
     end
 end
 
-# Now you can use this function acroos SQLite and Postgresql.
+# Now you can use this function across SQLite and Postgresql.
 create_table_test2=Sql("create table Test2 ($(A(id, true, true, true)), value text);")
 
 julia> create_table_test2|>sqlite|>render
