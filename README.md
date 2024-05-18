@@ -41,7 +41,7 @@ FinalSqlObject("insert into Test values (?, ?)", Any[0, "first"])
 julia> Sql("insert into Test values ($(P(0)), $(P("first")))")|>postgres|>render
 FinalSqlObject("insert into Test values (\$1, \$2)", Any[0, "first"])
 
-# Creates a intermediate SqlObject, nests it into another SqlObject, and renders it to a final FinalSqlObject. SqlObject should not be rendered if it will be nested.
+# Creates an intermediate SqlObject, nests it into another SqlObject, and renders it to a final FinalSqlObject. SqlObject should not be rendered if it will be nested.
 where=Sql("where id=$(P(0)) and value=$(P("first"))")
 finalSql=Sql("select id, value from Test $(N(where));")
 julia> finalSql|>sqlite|>render
