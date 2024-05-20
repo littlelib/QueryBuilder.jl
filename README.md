@@ -142,7 +142,7 @@ end
 values=concat(example_values, ", ")
 
 julia> Sql("insert into Test values $(N(values));")|>postgres|>render
-FinalSqlObject("insert into Test values (\$1, \$2) (\$3, \$4) (\$5, \$6) (\$7, \$8) (\$9, \$10) (\$11, \$12) (\$13, \$14) (\$15, \$16) (\$17, \$18) (\$19, \$20) (\$21, \$22) (\$23, \$24) (\$25, \$26) (\$27, \$28) (\$29, \$30) (\$31, \$32) (\$33, \$34) (\$35, \$36) (\$37, \$38) (\$39, \$40);", Any[1, "20", 2, "19", 3, "18", 4, "17", 5, "16"  …  16, "5", 17, "4", 18, "3", 19, "2", 20, "1"])
+FinalSqlObject("insert into Test values (\$1, \$2), (\$3, \$4), (\$5, \$6), (\$7, \$8), (\$9, \$10), (\$11, \$12), (\$13, \$14), (\$15, \$16), (\$17, \$18), (\$19, \$20), (\$21, \$22), (\$23, \$24), (\$25, \$26), (\$27, \$28), (\$29, \$30), (\$31, \$32), (\$33, \$34), (\$35, \$36), (\$37, \$38), (\$39, \$40);", Any[1, "20", 2, "19", 3, "18", 4, "17", 5, "16"  …  16, "5", 17, "4", 18, "3", 19, "2", 20, "1"])
 ```
 
 ### Specifying DBMS
@@ -199,27 +199,27 @@ end
 
 julia> @benchmark some_complex_sql_uncached(3, ["val1", true], "May 1st")
 BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range (min … max):  66.370 μs …  40.805 ms  ┊ GC (min … max): 0.00% … 98.91%
- Time  (median):     69.832 μs               ┊ GC (median):    0.00%
- Time  (mean ± σ):   75.986 μs ± 407.385 μs  ┊ GC (mean ± σ):  5.31% ±  0.99%
+ Range (min … max):  66.480 μs …  35.887 ms  ┊ GC (min … max): 0.00% … 98.92%
+ Time  (median):     68.925 μs               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   73.012 μs ± 358.196 μs  ┊ GC (mean ± σ):  4.86% ±  0.99%
 
-    ▄▆███▇▅▄▄▃▃▃▂▂▂▁▁▁▁        ▁▁                              ▂
-  ▆██████████████████████▇███████████▆▆▇▇▇▆▇▇█▇▇▆▇▆▇▆▄▅▅▅▅▅▅▄▄ █
-  66.4 μs       Histogram: log(frequency) by time      99.5 μs <
+     ▁▆██▅▁                                                     
+  ▂▃▅██████▆▄▃▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▁▂▁▁▂▂▁▂▁▁▂▂▂▂▁▂▂▂▂▂▂▂▂▂▂▂▂ ▃
+  66.5 μs         Histogram: frequency by time         90.1 μs <
 
  Memory estimate: 4.35 KiB, allocs estimate: 86.
 
 julia> @benchmark final_sql_generator(3, ["val1", true], "May 1st")
-BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range (min … max):  25.019 μs … 132.202 μs  ┊ GC (min … max): 0.00% … 0.00%
- Time  (median):     25.814 μs               ┊ GC (median):    0.00%
- Time  (mean ± σ):   25.968 μs ±   1.965 μs  ┊ GC (mean ± σ):  0.00% ± 0.00%
+BenchmarkTools.Trial: 10000 samples with 7 evaluations.
+ Range (min … max):  4.455 μs …  3.902 ms  ┊ GC (min … max): 0.00% … 99.25%
+ Time  (median):     5.010 μs              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   5.601 μs ± 38.974 μs  ┊ GC (mean ± σ):  6.92% ±  0.99%
 
-            ▃▁▅▇█▃▇▆▁▃▁                                         
-  ▂▂▂▂▂▃▄▄▆█████████████▅▆▅▄▃▃▃▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▁▂▂▂▂▂▁▁▁▂▂▂▁▂▂▂ ▃
-  25 μs           Histogram: frequency by time         28.1 μs <
+         ▁▅██▄                                                
+  ▁▁▂▂▃▄▇█████▆▃▂▂▂▂▃▄▅▅▄▃▂▂▁▂▂▂▂▂▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ ▂
+  4.46 μs        Histogram: frequency by time        7.48 μs <
 
- Memory estimate: 928 bytes, allocs estimate: 24.
+ Memory estimate: 624 bytes, allocs estimate: 15.
  ```
  ### Constraints to caching
 A cachable function must satisfy some constraints, making it a bit verbose. 

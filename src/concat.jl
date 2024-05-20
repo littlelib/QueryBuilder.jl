@@ -5,5 +5,8 @@ function concat(sql1::SqlObject, sql2::SqlObject, delim=" ")
 end
 
 function concat(sqls::Vector, delim=" ")
-    foldl(concat, sqls)
+    function delim_added_concat(sql1, sql2)
+        concat(sql1, sql2, delim)
+    end
+    foldl(delim_added_concat, sqls)
 end

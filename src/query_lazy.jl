@@ -23,8 +23,8 @@ function cache(fun::Function, args...)
     end
     result=fun(refs...)
     result=result|>lazyrender!
-    parameters=result.sqlobjects
-    return_function=function(args2...)
+    parameters=result.sqlobjects|>Tuple
+    function final_sql_generator(args2...)
         for (i,v) in args2|>enumerate
             heap[i]=v
         end
@@ -35,7 +35,33 @@ function cache(fun::Function, args...)
                 x.fun(x.value[])
             end
         end
-        FinalSqlObject(result.query, final_params)
+        FinalSqlObject(result.query, final_params|>collect)
     end
-    return (return_function(args...), return_function)
+    return (final_sql_generator(args...), final_sql_generator)
 end
+
+#=
+function cache_2(fun::Function, args...)
+    heap=map(args) do arg
+        Ref(arg)
+    end
+    
+    result=fun(heap...)
+    result=result|>lazyrender!
+    parameters=result.sqlobjects|>Tuple
+    function final_sql_generator(args2...)
+        for (i,v) in args2|>enumerate
+            heap[i][]=v
+        end
+        final_params=map(parameters) do x
+            if isa(x, Parameter)
+                x.value[]
+            else
+                x.fun(x.value[])
+            end
+        end
+        FinalSqlObject(result.query, final_params|>collect)
+    end
+    return (final_sql_generator(args...), final_sql_generator)
+end
+=#
